@@ -19,3 +19,8 @@
 # Operating System Files
 .DS_Store
 Thumbs.db
+
+# SQLite Db
+*.db
+*.db-shm
+*.db-wal

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PantryPilot.Core\PantryPilot.Core.csproj" />
+    <ProjectReference Include="..\PantryPilot.Api\PantryPilot.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>
