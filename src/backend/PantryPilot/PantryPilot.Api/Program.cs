@@ -17,6 +17,16 @@ builder.Services.AddScoped<IFoodOptimizationService, FoodOptimizationService>();
 builder.Services.AddDbContext<FoodDbContext>(options =>
     options.UseSqlite("Data Source=pantrypilot.db"));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
