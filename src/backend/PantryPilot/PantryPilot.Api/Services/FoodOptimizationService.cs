@@ -6,14 +6,9 @@ using PantryPilot.Api.Models.Responses;
 
 namespace PantryPilot.Api.Services
 {
-    public class FoodOptimizationService : IFoodOptimizationService
+    public class FoodOptimizationService(FoodDbContext db) : IFoodOptimizationService
     {
-        private readonly FoodDbContext _db;
-
-        public FoodOptimizationService(FoodDbContext db)
-        {
-            _db = db;
-        }
+        private readonly FoodDbContext _db = db;
 
         public async Task<OptimizationResponse> OptimizeAsync(
             OptimizationRequest request,

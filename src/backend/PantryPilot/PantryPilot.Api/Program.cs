@@ -13,6 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IFoodOptimizationService, FoodOptimizationService>();
+builder.Services.AddScoped<IIngredientService, IngredientService>();
+
 
 builder.Services.AddDbContext<FoodDbContext>(options =>
     options.UseSqlite("Data Source=pantrypilot.db"));

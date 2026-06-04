@@ -5,14 +5,9 @@ using PantryPilot.Api.Models.Responses;
 
 [ApiController]
 [Route("api/[controller]")]
-public class FoodOptimizerController : ControllerBase
+public class FoodOptimizerController(IFoodOptimizationService service) : ControllerBase
 {
-    private readonly IFoodOptimizationService _service;
-
-    public FoodOptimizerController(IFoodOptimizationService service)
-    {
-        _service = service;
-    }
+    private readonly IFoodOptimizationService _service = service;
 
     [HttpPost("optimize")]
     public async Task<ActionResult<OptimizationResponse>> Optimize([FromBody] OptimizationRequest request, CancellationToken cancellationToken)
