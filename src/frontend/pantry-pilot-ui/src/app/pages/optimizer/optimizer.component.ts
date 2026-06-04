@@ -17,6 +17,7 @@ import { IngredientQuantity, OptimizationRequest } from '../../models/optimizati
 import { OptimizationResponse } from '../../models/optimization-response';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-optimizer',
@@ -31,7 +32,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatExpansionModule
   ],
   templateUrl: './optimizer.component.html',
   styleUrl: './optimizer.component.scss'
@@ -55,7 +57,7 @@ export class OptimizerComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       ingredientId: ['', Validators.required],
-      quantity: ['', [Validators.required, Validators.min(0.1)]]
+      quantity: ['', [Validators.required, Validators.min(1)]]
     });
     this.store.dispatch(new IngredientsActions.GetIngredients());
   }

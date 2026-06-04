@@ -20,7 +20,7 @@
 
                     <mat-card class="text-white" >
                         <mat-card-header >
-                            <mat-card-title >Optimization Results</mat-card-title>
+                            <h3 class="text-2xl font-bold mb-6">Optimization Results</h3>
                         </mat-card-header>
 
                         <mat-card-content class="p-8">
@@ -38,20 +38,44 @@
                                 <div class="space-y-4">
                                     <mat-card *ngFor="let recipe of results.recipes">
                                         <mat-card-content class="p-4">
-                                            <div class="flex justify-between items-center">
+                                            <div class="flex justify-between items-center mb-4">
                                                 <div>
                                                     <h4 class="text-lg font-semibold">{{ recipe.name }}
                                                     </h4>
-                                                    <p class="text-sm mt-1">Amount needed</p>
+                                                    <p class="text-sm mt-1">Total quantity: <span class="font-semibold">{{ recipe.quantity }}</span></p>
                                                 </div>
-                                                <div class="text-right">
-                                                    <p class="text-2xl font-bold">{{ recipe.quantity }}
-                                                    </p>
+                                            </div>
+
+                                            <div *ngIf="recipe.ingredients.length > 0" class="border-t pt-4">
+                                                <h5 class="text-sm font-semibold mb-3">Ingredients</h5>
+                                                <div class="space-y-2 text-sm">
+                                                    <div *ngFor="let ingredient of recipe.ingredients" class="flex justify-between items-center p-2 bg-gray-50 rounded">
+                                                        <div>
+                                                            <p class="font-medium text-black">{{ ingredient.name }} x {{ ingredient.totalUsed }}</p>
+                                                            <p class="text-xs text-gray-500">{{ ingredient.quantityPerServing }} per serving</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </mat-card-content>
                                     </mat-card>
                                 </div>
+                            </div>
+
+                            <div *ngIf="results.unusedIngredients && results.unusedIngredients.length > 0" class="mt-8">
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            <mat-icon class="mr-2">storage</mat-icon>
+                                            Unused Ingredients ({{ results.unusedIngredients.length }})
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div class="space-y-2">
+                                        <div *ngFor="let unused of results.unusedIngredients" class="flex justify-between items-center p-3 bg-gray-50 rounded">
+                                            <span class="font-medium text-amber-600">{{ unused.name }} x {{ unused.quantity }}</span>
+                                        </div>
+                                    </div>
+                                </mat-expansion-panel>
                             </div>
                         </mat-card-content>
                     </mat-card>
@@ -62,7 +86,7 @@
 
                     <mat-card>
                         <mat-card-content class="p-2">
-                            <form [formGroup]="form">
+                            <form [formGroup]="form" >
                                 <div class="flex gap-3 flex-col sm:flex-row sm:items-baseline">
                                     <mat-form-field appearance="outline" class="flex-1">
                                         <mat-label>Select Ingredient</mat-label>
@@ -72,11 +96,17 @@
                                                 {{ ing.name }}
                                             </mat-option>
                                         </mat-select>
+                                        <mat-error *ngIf="form.controls['ingredientId'].invalid && form.controls['ingredientId'].touched">
+                                            Please select an ingredient.
+                                        </mat-error>
                                     </mat-form-field>
 
-                                    <mat-form-field appearance="outline" class="w-full sm:w-32">
+                                    <mat-form-field appearance="outline" class="w-full sm:w-32" >
                                         <mat-label>Qty</mat-label>
-                                        <input matInput type="number" formControlName="quantity" />
+                                        <input matInput type="number" formControlName="quantity" min="1" />
+                                        <mat-error *ngIf="form.controls['quantity'].invalid && form.controls['quantity'].touched">
+                                            Please enter a valid quantity.
+                                        </mat-error>
                                     </mat-form-field>
 
                                     <button mat-raised-button color="primary" (click)="addIngredient()"
@@ -107,7 +137,7 @@
                                                 ing.quantity }}</p>
                                             <mat-form-field *ngIf="editingIndex === i" appearance="outline"
                                                 class="w-full mt-1">
-                                                <input matInput type="number" [(ngModel)]="editingQuantity" />
+                                                <input matInput type="number" min="1" [(ngModel)]="editingQuantity" />
                                             </mat-form-field>
                                         </div>
 
