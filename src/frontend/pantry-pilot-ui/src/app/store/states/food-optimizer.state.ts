@@ -53,5 +53,10 @@ export class FoodOptimizerState {
     OptimizeFailure(ctx: StateContext<FoodOptimizerStateModel>, action: FoodOptimizerActions.OptimizeFailure) {
         ctx.patchState({ loading: false });
     }
+
+    @Action(FoodOptimizerActions.ResetOptimizationResult)
+    ResetOptimizationResult(ctx: StateContext<FoodOptimizerStateModel>) {
+        ctx.patchState({ results: null });
+    }
     
 }

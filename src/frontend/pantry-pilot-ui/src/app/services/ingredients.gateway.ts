@@ -8,7 +8,7 @@ import { IngredientResponse } from '../models/ingredient-response';
 })
 export class IngredientsGateway {
 
-    private apiUrl = environment.apiUrl + "/ingredients";
+    private apiUrl = environment.apiUrl + "/ingredient";
 
     constructor(private http: HttpClient) { }
 

@@ -20,4 +20,9 @@ export namespace FoodOptimizerActions {
         static readonly type = `[${typeName}] ${this.name}`
         constructor(public payload: HttpErrorResponse) { }
     }
+
+    export class ResetOptimizationResult {
+        static readonly type = `[${typeName}] ${this.name}`
+        constructor() { }
+    }
 }

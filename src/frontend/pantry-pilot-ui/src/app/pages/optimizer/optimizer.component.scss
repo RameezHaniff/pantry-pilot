@@ -1,0 +1,13 @@
+// Material card with Tailwind overrides for modern styling
+:host {
+  ::ng-deep {
+    mat-card {
+      border-radius: 0.75rem;
+      
+      mat-card-header {
+        border-radius: 0.75rem 0.75rem 0 0;
+      }
+    }
+  }
+}
+
