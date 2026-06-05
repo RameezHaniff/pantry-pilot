@@ -6,19 +6,15 @@ using PantryPilot.Api.Models.Responses;
 
 namespace PantryPilot.Api.Services
 {
-    public class FoodOptimizationService : IFoodOptimizationService
+    public class FoodOptimizationService(FoodDbContext db) : IFoodOptimizationService
     {
-        private readonly FoodDbContext _db;
-
-        public FoodOptimizationService(FoodDbContext db)
-        {
-            _db = db;
-        }
+        private readonly FoodDbContext _db = db;
 
         public async Task<OptimizationResponse> OptimizeAsync(
             OptimizationRequest request,
             CancellationToken cancellationToken = default)
         {
+            // Map available ingredients by ID and keep a copy for unused calculation
             var available = request.Ingredients.ToDictionary(i => i.IngredientId, i => i.Quantity);
 
             var recipes = await _db.Recipes
@@ -58,17 +54,36 @@ namespace PantryPilot.Api.Services
                     result.Add(new RecipeResult()
                     {
                         Name = info.Recipe.Name,
-                        Quantity = maxCount
+                        Quantity = maxCount,
+                        Ingredients = info.Recipe.RecipeIngredients.Select(ri => new RecipeIngredientResult
+                        {
+                            Name = ri.Ingredient.Name,
+                            TotalUsed = ri.Quantity * maxCount,
+                            QuantityPerServing = ri.Quantity
+                        }).ToList()
                     });
                     totalFed += info.Recipe.Feeds * maxCount;
                 }
             }
 
+            var allIngredients = await _db.Ingredients.AsNoTracking().ToListAsync(cancellationToken);
+
+            var unusedIngredients = allIngredients
+                .Where(i => available.TryGetValue(i.Id, out var qty) && qty > 0)
+                .Select(i => new UnusedIngredients
+                {
+                    Name = i.Name,
+                    Quantity = available[i.Id]
+                })
+                .ToList();
+
             return new OptimizationResponse()
             {
                 MaxPeopleFed = totalFed,
-                Recipes = result
+                Recipes = result,
+                UnusedIngredients = unusedIngredients
             };
         }
+
     }
 }
