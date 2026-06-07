@@ -38,7 +38,7 @@ namespace PantryPilot.Api.Services
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
-            var recipeInfos = recipes.Select(r => new
+            var recipeInfos = recipes.Where(x => x.RecipeIngredients.Any()).Select(r => new
             {
                 Recipe = r,
                 FeedsPerUnit = (double)r.Feeds / r.RecipeIngredients.Sum(ri => ri.Quantity)
