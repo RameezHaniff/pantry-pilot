@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PantryPilot.Api.Data;
 using PantryPilot.Api.ExceptionHandling;
+using PantryPilot.Api.Extensions;
 using PantryPilot.Api.Interfaces;
 using PantryPilot.Api.Services;
 
@@ -13,14 +14,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IFoodOptimizationService, FoodOptimizationService>();
-builder.Services.AddScoped<IIngredientService, IngredientService>();
+builder.Services.AddApplicationServices();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
-builder.Services.AddDbContext<FoodDbContext>(options =>
-    options.UseSqlite("Data Source=pantrypilot.db"));
+builder.Services.AddDatabase();
 
 builder.Services.AddCors(options =>
 {
