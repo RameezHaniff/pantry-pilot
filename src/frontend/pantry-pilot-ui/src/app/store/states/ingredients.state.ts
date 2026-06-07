@@ -4,6 +4,7 @@ import { IngredientsActions } from '../actions/ingredients.actions';
 import { IngredientResponse } from '../../models/ingredient-response';
 import { IngredientsGateway } from '../../services/ingredients.gateway';
 import { tap, catchError, of } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 export interface IngredientsStateModel {
@@ -22,7 +23,10 @@ export interface IngredientsStateModel {
 @Injectable()
 export class IngredientsState {
 
-    constructor(private readonly gateway: IngredientsGateway) { }
+    constructor(
+        private readonly gateway: IngredientsGateway,
+        private readonly snackbar: MatSnackBar
+    ) { }
 
     @Selector()
     static getIngredients(state: IngredientsStateModel) {
@@ -52,6 +56,14 @@ export class IngredientsState {
     @Action(IngredientsActions.GetIngredientsFailure)
     getIngredientsFailure(ctx: StateContext<IngredientsStateModel>, action: IngredientsActions.GetIngredientsFailure) {
         ctx.patchState({ loading: false });
+        const message = action.payload?.error?.detail ?? 'An unexpected error occurred';
+
+            this.snackbar.open(message, 'Dismiss',
+            {
+                duration: 5000,
+                panelClass: ['error-snackbar']
+            }
+        );
     }
     
     
