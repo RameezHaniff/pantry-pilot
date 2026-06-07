@@ -14,7 +14,22 @@ namespace PantryPilot.Api.Services
             OptimizationRequest request,
             CancellationToken cancellationToken = default)
         {
-            // Map available ingredients by ID and keep a copy for unused calculation
+
+            if (request.Ingredients == null || !request.Ingredients.Any())
+            {
+                throw new ArgumentException("At least one ingredient must be provided.");
+            }
+
+            if (request.Ingredients.Any(i => i.Quantity < 0))
+            {
+                throw new ArgumentException("Ingredient quantities cannot be negative.");
+            }
+
+            if (request.Ingredients.GroupBy(i => i.IngredientId).Any(g => g.Count() > 1))
+            {
+                throw new ArgumentException("Duplicate ingredients are not allowed.");
+            }
+
             var available = request.Ingredients.ToDictionary(i => i.IngredientId, i => i.Quantity);
 
             var recipes = await _db.Recipes
