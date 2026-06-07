@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PantryPilot.Api.Data;
+using PantryPilot.Api.ExceptionHandling;
 using PantryPilot.Api.Interfaces;
 using PantryPilot.Api.Services;
 
@@ -15,6 +16,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IFoodOptimizationService, FoodOptimizationService>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddDbContext<FoodDbContext>(options =>
     options.UseSqlite("Data Source=pantrypilot.db"));
@@ -42,6 +45,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseExceptionHandler();
 
 app.UseCors("AllowAngular");
 

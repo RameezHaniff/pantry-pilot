@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { OptimizationResponse } from '../../models/optimization-response';
 import { FoodOptimizerGateway } from '../../services/food-optimizer.gateway';
@@ -12,21 +13,30 @@ export interface FoodOptimizerStateModel {
 }
 
 @State<FoodOptimizerStateModel>({
-  name: 'foodOptimizer',
-  defaults: {
-    loading: false,
-    results: null
-  }}
+    name: 'foodOptimizer',
+    defaults: {
+        loading: false,
+        results: null
+    }
+}
 )
 
 @Injectable()
 export class FoodOptimizerState {
 
-    constructor(private readonly gateway: FoodOptimizerGateway) { }
+    constructor(
+        private readonly gateway: FoodOptimizerGateway,
+        private readonly snackbar: MatSnackBar
+    ) { }
 
     @Selector()
     static getResults(state: FoodOptimizerStateModel): OptimizationResponse | null {
         return state.results;
+    }
+
+    @Selector()
+    static getLoading(state: FoodOptimizerStateModel): boolean {
+        return state.loading;
     }
 
     @Action(FoodOptimizerActions.Optimize)
@@ -52,11 +62,19 @@ export class FoodOptimizerState {
     @Action(FoodOptimizerActions.OptimizeFailure)
     OptimizeFailure(ctx: StateContext<FoodOptimizerStateModel>, action: FoodOptimizerActions.OptimizeFailure) {
         ctx.patchState({ loading: false });
+        const message = action.payload?.error?.detail ?? 'An unexpected error occurred';
+
+            this.snackbar.open(message, 'Dismiss',
+            {
+                duration: 5000,
+                panelClass: ['error-snackbar']
+            }
+        );
     }
 
     @Action(FoodOptimizerActions.ResetOptimizationResult)
     ResetOptimizationResult(ctx: StateContext<FoodOptimizerStateModel>) {
         ctx.patchState({ results: null });
     }
-    
+
 }
