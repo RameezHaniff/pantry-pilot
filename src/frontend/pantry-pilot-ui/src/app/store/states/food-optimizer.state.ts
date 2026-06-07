@@ -34,6 +34,11 @@ export class FoodOptimizerState {
         return state.results;
     }
 
+    @Selector()
+    static getLoading(state: FoodOptimizerStateModel): boolean {
+        return state.loading;
+    }
+
     @Action(FoodOptimizerActions.Optimize)
     Optimize(ctx: StateContext<FoodOptimizerStateModel>, action: FoodOptimizerActions.Optimize) {
         ctx.patchState({ loading: true });

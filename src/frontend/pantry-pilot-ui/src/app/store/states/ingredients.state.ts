@@ -29,8 +29,13 @@ export class IngredientsState {
     ) { }
 
     @Selector()
-    static getIngredients(state: IngredientsStateModel) {
+    static getIngredients(state: IngredientsStateModel): IngredientResponse[] {
         return state.ingredients;
+    }
+
+    @Selector()
+    static getLoading(state: IngredientsStateModel): boolean {
+        return state.loading;
     }
 
     @Action(IngredientsActions.GetIngredients)

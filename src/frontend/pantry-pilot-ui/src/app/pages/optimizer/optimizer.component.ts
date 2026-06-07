@@ -18,6 +18,7 @@ import { OptimizationResponse } from '../../models/optimization-response';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-optimizer',
@@ -32,6 +33,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    MatProgressSpinnerModule,
     MatTooltipModule,
     MatExpansionModule
   ],
@@ -42,6 +44,8 @@ export class OptimizerComponent implements OnInit {
   form!: FormGroup;
   ingredients$: Observable<IngredientResponse[]>;
   results$: Observable<OptimizationResponse | null>;
+  loading$!: Observable<boolean>;
+  ingredientsLoading$!: Observable<boolean>;
   selectedIngredients: IngredientQuantity[] = [];
   editingIndex: number | null = null;
   editingQuantity: number | null = null;
@@ -52,6 +56,8 @@ export class OptimizerComponent implements OnInit {
   ) {
     this.ingredients$ = this.store.select(IngredientsState.getIngredients);
     this.results$ = this.store.select(FoodOptimizerState.getResults);
+    this.loading$ = this.store.select(FoodOptimizerState.getLoading);
+    this.ingredientsLoading$ = this.store.select(IngredientsState.getLoading);
   }
 
   ngOnInit() {
