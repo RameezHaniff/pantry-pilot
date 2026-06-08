@@ -1,0 +1,6 @@
+services:
+  pantrypilot.api:
+    image: ${DOCKER_REGISTRY-}pantrypilotapi
+    build:
+      context: .
+      dockerfile: PantryPilot.Api/Dockerfile
