@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PantryPilot.Tests", "Pantry
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PantryPilot.Api", "PantryPilot.Api\PantryPilot.Api.csproj", "{07576032-6FDE-400F-BA0E-70C381114BCF}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FD18C1D2-CD56-4079-BD5F-D7DC4CB0F695}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{07576032-6FDE-400F-BA0E-70C381114BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07576032-6FDE-400F-BA0E-70C381114BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07576032-6FDE-400F-BA0E-70C381114BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD18C1D2-CD56-4079-BD5F-D7DC4CB0F695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD18C1D2-CD56-4079-BD5F-D7DC4CB0F695}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD18C1D2-CD56-4079-BD5F-D7DC4CB0F695}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD18C1D2-CD56-4079-BD5F-D7DC4CB0F695}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
