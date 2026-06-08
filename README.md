@@ -8,7 +8,7 @@ The application accepts a list of ingredients and quantities, evaluates availabl
 
 ### Backend
 
-* ASP.NET Core 9
+* ASP.NET Core 8
 * Entity Framework Core
 * SQLite
 * xUnit
@@ -32,7 +32,7 @@ The application accepts a list of ingredients and quantities, evaluates availabl
 
 ## Prerequisites
 
-* .NET 9 SDK
+* .NET 8 SDK
 * Node.js (v20 or later recommended)
 * Angular CLI
 
@@ -50,13 +50,14 @@ ng version
 Navigate to the API project:
 
 ```bash
-cd PantryPilot.Api
+cd src/backend/PantryPilot.Api
 ```
 
 Restore dependencies:
 
 ```bash
 dotnet restore
+dotnet tool restore
 ```
 
 Apply database migrations:
